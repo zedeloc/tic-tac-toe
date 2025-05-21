@@ -35,4 +35,21 @@ function createGameboard () {
     return { getGameboard, updateCell };
 };
 
+function createPlayer (player) {
+    const name = player;
+    let wins = 0;
+    let symbol = undefined;
+
+    const getName = () => name;
+    const getWins = () => wins;
+    const addWin = () => wins++;
+    const getSymbol = () => symbol;
+    const assignSymbol = (sym) => symbol = sym;
+
+    return { getName, getWins, addWin, getSymbol, assignSymbol}
+}
+
+
 const Gameboard = createGameboard();
+const Player1 = createPlayer("Bill");
+
