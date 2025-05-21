@@ -49,7 +49,33 @@ function createPlayer (player) {
     return { getName, getWins, addWin, getSymbol, assignSymbol}
 }
 
+const game = (() => {
+    const player1 = createPlayer("player1");
+    const player2 = createPlayer("player2");
+    const Gameboard = createGameboard();
+    flipForChoice()
 
-const Gameboard = createGameboard();
-const Player1 = createPlayer("Bill");
+    function flipForChoice() {
+        if (Math.round(Math.random()) === 0) {
+            let symbolChoice = prompt(`${player1.getName()}, 'o' or 'x'?`);
+            let otherSymbol;
+            (symbolChoice === "x") ? otherSymbol = "o" : otherSymbol= "x";
+            player1.assignSymbol(symbolChoice);
+            player2.assignSymbol(otherSymbol);
+        } else {
+            let symbolChoice = prompt(`${player2.getName()}, 'o' or 'x'?`);
+            let otherSymbol;
+            (symbolChoice === "x") ? otherSymbol = "o" : otherSymbol= "x";
+            player2.assignSymbol(symbolChoice);
+            player1.assignSymbol(otherSymbol);
+        }
+    }
 
+    return { player1, player2, Gameboard }
+})();
+
+
+
+function flipForChoice() {
+    return Math.round(Math.random())
+}
