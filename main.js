@@ -13,10 +13,22 @@ function createGameboard () {
     ];
 
     const updateCell = (row, col, value) => {
-        gameboard[row].splice(col, 1, value);
+        if (checkIfFree(row, col)) {
+            gameboard[row].splice(col, 1, value);
         console.log(`Row: ${row}, Column: ${col}: is now ${value}.`);
 
         console.table(Gameboard.getGameboard());
+        } else {
+            return false;
+        }  
+    }
+
+    const checkIfFree = (row, col) => {
+        if ( gameboard[row][col] === undefined ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     const getGameboard = () => gameboard;
