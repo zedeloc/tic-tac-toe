@@ -18,16 +18,16 @@ function createGameboard () {
         
         } else {
             return false;
-        }  
-    }
+        }; 
+    };
 
     const checkIfFree = (row, col) => {
         if ( gameboard[row][col] === undefined ) {
             return true;
         } else {
             return false;
-        }
-    }
+        };
+    };
 
     const getGameboard = () => gameboard;
     return { getGameboard, updateCell };
@@ -44,8 +44,8 @@ function createPlayer (player) {
     const getMark = () => mark;
     const assignMark = (newMark) => mark = newMark;
 
-    return { getName, getWins, addWin, getMark, assignMark }
-}
+    return { getName, getWins, addWin, getMark, assignMark };
+};
 
 const game = (() => {
     // make player objects, store in array, designate marks
@@ -63,45 +63,41 @@ const game = (() => {
     function updateCurrentState() {
         console.clear();
         for (let i = 0; i < 6; i++) {
-            console.log(i)
-        }
-        console.log("To make a move call 'game.makeMove()' and please enter Row.Col separated by a single period")
+            console.log(i);
+        };
+        console.log("To make a move call 'game.makeMove()' and please enter Row.Col separated by a single period");
         console.table(gameboard.getGameboard());
-    }
+    };
 
     function getActivePlayer() {
         for (player of players) {
             if (player.getMark() === activeMark) {
                 return player.getName();
-            }
-        }
-
-    }
+            };
+        };
+    };
 
     function switchActiveMark() {
         ( activeMark === "x" ) ? activeMark ="o" : activeMark = "x";
     };
 
     function makeMove() {
-        console.log(`${getActivePlayer()}'s turn. Place mark: ${activeMark}`)
-        promptForMove()
+        console.log(`${getActivePlayer()}'s turn. Place mark: ${activeMark}`);
+        promptForMove();
 
         function promptForMove() {
             const move = prompt(`${getActivePlayer()} (${activeMark}), enter move as Row.Col separated by a single period`);
-            const moveArray = move.split('.')
-           const isValidMove = gameboard.updateCell(moveArray[0], moveArray[1], activeMark);
-           if (!isValidMove) {
-            console.log("invalid move. Lets try again");
-            makeMove()
+            const moveArray = move.split('.');
+            const isValidMove = gameboard.updateCell(moveArray[0], moveArray[1], activeMark);
+            if (!isValidMove) {
+                console.log("invalid move. Lets try again");
+                makeMove();
            } else {
-            console.table(gameboard.getGameboard());
-            switchActiveMark();
-            updateCurrentState();
-           }
-        }
-
-
-    }
+                console.table(gameboard.getGameboard());
+                switchActiveMark();
+           };
+        };
+    };
 
     function checkForWin(mark) {
         const boardToEvaluate = gameboard.getGameboard();
@@ -127,10 +123,8 @@ const game = (() => {
         } else if (boardToEvaluate[0][2] === mark && boardToEvaluate[1][1] === mark && boardToEvaluate[2][0] === mark) {
             console.log(`${mark} wins with diagonal 2`);
             return true;
-        }
-        // check for draw
-        
-    }
+        };
+    };
 
     function checkForDraw() {
         const boardToEvaluate = gameboard.getGameboard();
@@ -138,31 +132,30 @@ const game = (() => {
             for (let i = 0; i < 3; i++) {
                 if (!row[i]) {
                     return false;
-                }
-            }
-        }
+                };
+            };
+        };
+        console.log("DRAW!")
         return true;
-
-    }
-
+    };
+    // Keep game running without having to manually call methods in the console
     function gameLoop() {
         while (active) {
-            
             updateCurrentState()
             checkForWin("x");
             checkForWin('o');
             checkForDraw();
-            makeMove()
-        }
-    }
+            makeMove();
+        };
+    };
 
     gameLoop();
 
-    return { players, gameboard, getActivePlayer, switchActiveMark, makeMove }
+    return { players, gameboard, getActivePlayer, switchActiveMark, makeMove };
 })();
 
 
 
 function flipForChoice() {
-    return Math.round(Math.random())
-}
+    return Math.round(Math.random());
+};
