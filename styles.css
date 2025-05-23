@@ -1,4 +1,33 @@
 body {
+    height: 100vh;
+    width: 100vw;
     background-color: black;
     color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+#board {
+    background-color: white;
+    color: black;
+    text-align: center;
+    height: 700px;
+    width: 458px;
+    display: flex;
+    flex-direction: column;
+    flex: 0 1 auto;
+    gap: none;
+}
+
+.square {
+    width: 150px;
+    height: 150px;
+    margin: none;
+    border: solid 2px black;
+
+}
+
+/* button {
+    margin: none;
+} */
