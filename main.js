@@ -38,40 +38,49 @@ function createGameboard () {
 function createPlayer (player) {
     const name = player;
     let wins = 0;
-    let symbol = undefined;
+    let mark = undefined;
 
     const getName = () => name;
     const getWins = () => wins;
     const addWin = () => wins++;
-    const getSymbol = () => symbol;
-    const assignSymbol = (sym) => symbol = sym;
+    const getMark = () => mark;
+    const assignMark = (newMark) => mark = newMark;
 
-    return { getName, getWins, addWin, getSymbol, assignSymbol}
+    return { getName, getWins, addWin, getMark, assignMark }
 }
 
 const game = (() => {
-    const player1 = createPlayer("player1");
-    const player2 = createPlayer("player2");
-    const Gameboard = createGameboard();
-    flipForChoice()
+    const players = [
+        createPlayer("player1"),
+        createPlayer("player2")
+    ];
+    players[0].assignMark("x");
+    players[1].assignMark("o");
 
-    function flipForChoice() {
-        if (Math.round(Math.random()) === 0) {
-            let symbolChoice = prompt(`${player1.getName()}, 'o' or 'x'?`);
-            let otherSymbol;
-            (symbolChoice === "x") ? otherSymbol = "o" : otherSymbol= "x";
-            player1.assignSymbol(symbolChoice);
-            player2.assignSymbol(otherSymbol);
-        } else {
-            let symbolChoice = prompt(`${player2.getName()}, 'o' or 'x'?`);
-            let otherSymbol;
-            (symbolChoice === "x") ? otherSymbol = "o" : otherSymbol= "x";
-            player2.assignSymbol(symbolChoice);
-            player1.assignSymbol(otherSymbol);
+    const gameboard = createGameboard();
+    let activeMark = "x";
+
+
+
+    function getActivePlayer() {
+        for (player of players) {
+            if (player.getMark() === activeMark) {
+                return player.getName();
+            }
         }
+
     }
 
-    return { player1, player2, Gameboard }
+    function switchActiveMark() {
+        ( activeMark === "x" ) ? activeMark ="o" : activeMark = "x";
+    };
+
+    function makeMove() {
+        
+        console.log(" ")
+    }
+
+    return { players, gameboard, getActivePlayer, switchActiveMark }
 })();
 
 
