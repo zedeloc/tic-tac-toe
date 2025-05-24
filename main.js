@@ -179,7 +179,7 @@ const displayController = (() => {
 
     resetButton.addEventListener('click', () => {
         ticTacToe.resetGame();
-        squareLoader()
+        squareLoader();
         isActive = true;
         info.textContent = ticTacToe.getStatus();
     })
@@ -203,8 +203,7 @@ const displayController = (() => {
                 if (isWin) {
                     info.textContent = isWin;
                     isActive = false;
-                }
-                if (isDraw) {
+                } else if (isDraw) {
                     info.textContent = isDraw;
                     isActive = false
                 }
