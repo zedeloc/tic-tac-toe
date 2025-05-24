@@ -149,7 +149,7 @@ const game = (() => {
         };
     };
 
-    gameLoop();
+    // gameLoop();
 
     return { players, gameboard, getActivePlayer, switchActiveMark, makeMove };
 })();

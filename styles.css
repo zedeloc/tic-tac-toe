@@ -9,8 +9,7 @@ body {
 }
 
 #board {
-    background-color: white;
-    color: black;
+
     text-align: center;
     height: 700px;
     width: 458px;
@@ -25,7 +24,12 @@ body {
     height: 150px;
     margin: none;
     border: solid 2px black;
+    font-size: 48px;
+}
 
+.row {
+    display: flex;
+    
 }
 
 /* button {
