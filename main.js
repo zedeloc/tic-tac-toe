@@ -224,6 +224,7 @@ const displayController = (() => {
     function getRowColArray(squareClass) {
         return squareClass.classList[1].split("-");
     }
+    // fill squares from gameboard array data
     function squareLoader() {
         squares.forEach((square) => {
             const squareLocation = getRowColArray(square);
