@@ -5,7 +5,7 @@
 // Consider carefully where each bit of logic goes
 // Use buttons for the board items, column attribute (0, 1, 2)
 
-
+const aGameboard = createGameboard()
 
 function createGameboard () {
     const gameboard = [
@@ -32,7 +32,16 @@ function createGameboard () {
     };
 
     const getGameboard = () => gameboard;
-    return { getGameboard, updateCell };
+
+    const clearGameboard = () => {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                gameboard[i].splice(j, 1, undefined);
+            }
+        }
+        console.table(gameboard)
+    }
+    return { getGameboard, updateCell, clearGameboard };
 };
 
 function createPlayer (player) {
@@ -88,9 +97,7 @@ function game() {
     };
 
     function makeMove(move) {
-        console.log(`${getActivePlayer()}'s turn. Place mark: ${activeMark}`);
-
-            
+        console.log(`${getActivePlayer()}'s turn. Place mark: ${activeMark}`); 
         const moveArray = move.split('-');
         const isValidMove = gameboard.updateCell(moveArray[0], moveArray[1], activeMark);
         console.log(activeMark)
@@ -150,25 +157,38 @@ function game() {
 
     const getActiveMark = () => activeMark;
 
+    function resetGame() {
+        gameboard.clearGameboard();
+        activeMark = 'x';
+    }
+
     // gameLoop();
 
 
-    return { players, gameboard, getActivePlayer, switchActiveMark, makeMove, getActiveMark, checkForDraw, checkForWin, getStatus };
+    return { players, gameboard, getActivePlayer, switchActiveMark, makeMove, getActiveMark, checkForDraw, checkForWin, getStatus, resetGame };
 };
 
 const displayController = (() => {
-    let ticTacToe = game()
+    let ticTacToe = game();
     let isActive = true;
     
-    const squares = document.querySelectorAll(".square")
-    const info = document.querySelector("#info")
+    const squares = document.querySelectorAll(".square");
+    const info = document.querySelector("#info");
+    const resetButton = document.querySelector("#reset-button");
     info.textContent = ticTacToe.getStatus();
+
+    resetButton.addEventListener('click', () => {
+        ticTacToe.resetGame();
+        squareLoader()
+        isActive = true;
+        info.textContent = ticTacToe.getStatus();
+    })
 
     squares.forEach((square) => {
         square.addEventListener('click', () => {
                 if (isActive){
-                const activeMark = ticTacToe.getActiveMark()
-                const squareArray = square.classList
+                const activeMark = ticTacToe.getActiveMark();
+                const squareArray = square.classList;
 
                 console.log(squareArray[1])
                 const isValid = ticTacToe.makeMove(squareArray[1])
