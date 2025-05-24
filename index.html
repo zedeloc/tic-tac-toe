@@ -3,13 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tic Tac Toe by Desmond Cole</title>
     <link rel="stylesheet" href="./styles.css">
     <script src="./main.js" defer></script>
 </head>
 <body>
+    <div id="menu">
+        <form action="">
+            <input type="text" id="player-1" placeholder="Player 1 Marker: X">
+            <button type="button" id="but-player-1">Set name</button>
+        </form>
+        <p>By Desmond Cole for The Odin Project</p>
+        <form action="">
+            <input type="text" id="player-2" placeholder="Player 2 Marker: O">
+            <button type="button" id="but-player-2">Set name</button>
+        </form>
+    </div>
     <div id="board">
-        <h2>Tic Tac Toe</h2>
+    
+        <h1>Tic Tac Toe</h1>
         <div class="row row-0">
             <button class="square 0-0"></button>
             <button class="square 0-1"></button>
@@ -25,10 +37,11 @@
             <button class="square 2-1"></button>
             <button class="square 2-2"></button>
         </div>
-        <div id="info">
+        
+    </div>
+    <div id="info">
 
         </div>
         <button id="reset-button">Reset Game</button>
-    </div>
 </body>
 </html>

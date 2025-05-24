@@ -45,17 +45,18 @@ function createGameboard () {
 };
 
 function createPlayer (player) {
-    const name = player;
+    let name = player;
     let wins = 0;
     let mark = undefined;
 
     const getName = () => name;
+    const updateName = (newName) => name = newName;
     const getWins = () => wins;
     const addWin = () => wins++;
     const getMark = () => mark;
     const assignMark = (newMark) => mark = newMark;
 
-    return { getName, getWins, addWin, getMark, assignMark };
+    return { getName, getWins, addWin, getMark, assignMark, updateName };
 };
 
 function game() {
@@ -175,7 +176,39 @@ const displayController = (() => {
     const squares = document.querySelectorAll(".square");
     const info = document.querySelector("#info");
     const resetButton = document.querySelector("#reset-button");
+    const butPlayer1 = document.querySelector("#but-player-1");
+    const player1Name = document.querySelector("#player-1");
+    const butPlayer2 = document.querySelector("#but-player-2");
+    const player2Name = document.querySelector("#player-2");
     info.textContent = ticTacToe.getStatus();
+
+    butPlayer1.addEventListener("click", () => {
+        ticTacToe.players[0].updateName(player1Name.value)
+        info.textContent = ticTacToe.getStatus();
+    })
+
+    player1Name.addEventListener('keydown', (e) => {
+        
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            ticTacToe.players[0].updateName(player1Name.value)
+            info.textContent = ticTacToe.getStatus();
+        }
+    })
+
+    butPlayer2.addEventListener("click", () => {
+        ticTacToe.players[1].updateName(player2Name.value)
+        info.textContent = ticTacToe.getStatus();
+    })
+
+    player2Name.addEventListener('keydown', (e) => {
+        
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            ticTacToe.players[1].updateName(player2Name.value)
+            info.textContent = ticTacToe.getStatus();
+        }
+    })
 
     resetButton.addEventListener('click', () => {
         ticTacToe.resetGame();

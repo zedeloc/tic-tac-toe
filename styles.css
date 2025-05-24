@@ -1,17 +1,36 @@
 body {
-    height: 100vh;
-    width: 100vw;
+
     background-color: black;
     color: white;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: none;
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+h1 {
+    margin: .5rem;
+}
+
+#menu {
+    margin-bottom: auto;
+    display: flex;
+    justify-content: space-between;
+    background-color: brown;
+    align-self: stretch;
+    justify-self: flex-start;
+    padding: 1rem;
 }
 
 #board {
 
     text-align: center;
-    height: 700px;
     width: 458px;
     display: flex;
     flex-direction: column;
@@ -24,13 +43,26 @@ body {
     height: 150px;
     margin: none;
     border: solid 2px black;
-    font-size: 48px;
+    font-size: 96px;
     color: black;
 }
 
 .row {
     display: flex;
     
+}
+
+#info {
+    background: lightgray;
+    font-size: 1.5rem;
+    padding: 1rem;
+    color: rgb(168, 2, 2);
+    margin: .5rem;
+}
+
+#reset-button {
+    padding: 1rem;
+    margin: .5rem;
 }
 
 /* button {
