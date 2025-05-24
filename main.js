@@ -158,33 +158,50 @@ function game() {
 
 const displayController = (() => {
     let ticTacToe = game()
+    let isActive = true;
+    
     const squares = document.querySelectorAll(".square")
     const info = document.querySelector("#info")
     info.textContent = ticTacToe.getStatus();
 
     squares.forEach((square) => {
         square.addEventListener('click', () => {
-            const activeMark = ticTacToe.getActiveMark()
-            const squareArray = square.classList
+                if (isActive){
+                const activeMark = ticTacToe.getActiveMark()
+                const squareArray = square.classList
 
-            console.log(squareArray[1])
-            const isValid = ticTacToe.makeMove(squareArray[1])
-            if (isValid) {
-                square.textContent = activeMark;
-                ticTacToe.switchActiveMark()
-                info.textContent = ticTacToe.getStatus()
-            }
-            const isWin = ticTacToe.checkForWin(activeMark);
-            const isDraw = ticTacToe.checkForDraw();
+                console.log(squareArray[1])
+                const isValid = ticTacToe.makeMove(squareArray[1])
+                if (isValid) {
+                    squareLoader();
+                    ticTacToe.switchActiveMark();
+                    info.textContent = ticTacToe.getStatus();
+                }
+                const isWin = ticTacToe.checkForWin(activeMark);
+                const isDraw = ticTacToe.checkForDraw();
 
-            if (isWin) {
-                info.textContent = isWin;
-            }
-            if (isDraw) {
-                info.textContent = isDraw;
-            }
-            
+                if (isWin) {
+                    info.textContent = isWin;
+                    isActive = false;
+                }
+                if (isDraw) {
+                    info.textContent = isDraw;
+                    isActive = false
+                }
+            }    
         })
     })
+
+    function getRowColArray(squareClass) {
+        return squareClass.classList[1].split("-");
+    }
+    function squareLoader() {
+        squares.forEach((square) => {
+            const squareLocation = getRowColArray(square);
+            const currentGameboard = ticTacToe.gameboard.getGameboard()
+            square.textContent = currentGameboard[squareLocation[0]][squareLocation[1]]
+
+        })
+    }
 })();
 
