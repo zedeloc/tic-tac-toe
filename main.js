@@ -5,6 +5,8 @@
 // Consider carefully where each bit of logic goes
 // Use buttons for the board items, column attribute (0, 1, 2)
 
+
+
 function createGameboard () {
     const gameboard = [
         [undefined, undefined, undefined],[undefined, undefined, undefined],[undefined, undefined, undefined]
@@ -13,7 +15,7 @@ function createGameboard () {
     const updateCell = (row, col, value) => {
         if (checkIfFree(row, col)) {
             gameboard[row].splice(col, 1, value);
-        console.log(`Row: ${row}, Column: ${col}: is now ${value}.`);
+            console.log(`Row: ${row}, Column: ${col}: is now ${value}.`);
             return true;
         
         } else {
@@ -47,7 +49,7 @@ function createPlayer (player) {
     return { getName, getWins, addWin, getMark, assignMark };
 };
 
-const game = (() => {
+function game() {
     // make player objects, store in array, designate marks
     active = true;
     const players = [
@@ -68,6 +70,10 @@ const game = (() => {
         console.log("To make a move call 'game.makeMove()' and please enter Row.Col separated by a single period");
         console.table(gameboard.getGameboard());
     };
+    // Text update with instructions for the player
+    function getStatus() {
+        return `${getActivePlayer()}'s turn (your mark is ${getActiveMark()})`
+    }
 
     function getActivePlayer() {
         for (player of players) {
@@ -81,48 +87,42 @@ const game = (() => {
         ( activeMark === "x" ) ? activeMark ="o" : activeMark = "x";
     };
 
-    function makeMove() {
+    function makeMove(move) {
         console.log(`${getActivePlayer()}'s turn. Place mark: ${activeMark}`);
-        promptForMove();
 
-        function promptForMove() {
-            const move = prompt(`${getActivePlayer()} (${activeMark}), enter move as Row.Col separated by a single period`);
-            const moveArray = move.split('.');
-            const isValidMove = gameboard.updateCell(moveArray[0], moveArray[1], activeMark);
-            if (!isValidMove) {
-                console.log("invalid move. Lets try again");
-                makeMove();
-           } else {
-                console.table(gameboard.getGameboard());
-                switchActiveMark();
-           };
-        };
+            
+        const moveArray = move.split('-');
+        const isValidMove = gameboard.updateCell(moveArray[0], moveArray[1], activeMark);
+        console.log(activeMark)
+        if (!isValidMove) {
+            return false;
+        } else {
+            return true;
+        }
     };
+    
 
     function checkForWin(mark) {
         const boardToEvaluate = gameboard.getGameboard();
         // check horizontal
         for (row of boardToEvaluate) {
-        
             if (row[0] === mark && row[1] === mark && row[2] === mark) {
-                console.log(`${mark} wins in row:`)
-                return true
-            }
-        }
+                return `${mark} wins in row:`;
+            };
+        };
         // check vertical
         for (let i = 0; i < 3; i++) {
             if (boardToEvaluate[0][i] === mark && boardToEvaluate[1][i] === mark && boardToEvaluate[2][i] === mark) {
-                console.log(`${mark} wins! in column ${i+1}`)
-                return true
-            }
-        }
+                return `${mark} wins! in column ${i+1}`;
+            };
+        };
         // check diagonal
         if (boardToEvaluate[0][0] === mark && boardToEvaluate[1][1] === mark &&boardToEvaluate[2][2] === mark) {
-            console.log(`${mark} wins with diagonal 1`);
-            return true;
+            return `${mark} wins with diagonal 1`;
+
         } else if (boardToEvaluate[0][2] === mark && boardToEvaluate[1][1] === mark && boardToEvaluate[2][0] === mark) {
-            console.log(`${mark} wins with diagonal 2`);
-            return true;
+            return `${mark} wins with diagonal 2`;
+            
         };
     };
 
@@ -135,8 +135,7 @@ const game = (() => {
                 };
             };
         };
-        console.log("DRAW!")
-        return true;
+        return "DRAW!"
     };
     // Keep game running without having to manually call methods in the console
     function gameLoop() {
@@ -149,13 +148,43 @@ const game = (() => {
         };
     };
 
+    const getActiveMark = () => activeMark;
+
     // gameLoop();
 
-    return { players, gameboard, getActivePlayer, switchActiveMark, makeMove };
+
+    return { players, gameboard, getActivePlayer, switchActiveMark, makeMove, getActiveMark, checkForDraw, checkForWin, getStatus };
+};
+
+const displayController = (() => {
+    let ticTacToe = game()
+    const squares = document.querySelectorAll(".square")
+    const info = document.querySelector("#info")
+    info.textContent = ticTacToe.getStatus();
+
+    squares.forEach((square) => {
+        square.addEventListener('click', () => {
+            const activeMark = ticTacToe.getActiveMark()
+            const squareArray = square.classList
+
+            console.log(squareArray[1])
+            const isValid = ticTacToe.makeMove(squareArray[1])
+            if (isValid) {
+                square.textContent = activeMark;
+                ticTacToe.switchActiveMark()
+                info.textContent = ticTacToe.getStatus()
+            }
+            const isWin = ticTacToe.checkForWin(activeMark);
+            const isDraw = ticTacToe.checkForDraw();
+
+            if (isWin) {
+                info.textContent = isWin;
+            }
+            if (isDraw) {
+                info.textContent = isDraw;
+            }
+            
+        })
+    })
 })();
 
-
-
-function flipForChoice() {
-    return Math.round(Math.random());
-};
