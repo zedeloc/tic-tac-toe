@@ -71,15 +71,6 @@ function game() {
     // make gameboard and set active mark
     const gameboard = createGameboard();
     let activeMark = "x";
-    // let the user know what to do and show gameboard
-    function updateCurrentState() {
-        console.clear();
-        for (let i = 0; i < 6; i++) {
-            console.log(i);
-        };
-        console.log("To make a move call 'game.makeMove()' and please enter Row.Col separated by a single period");
-        console.table(gameboard.getGameboard());
-    };
     // Text update with instructions for the player
     function getStatus() {
         return `${getActivePlayer()}'s turn (your mark is ${getActiveMark()})`
@@ -108,7 +99,6 @@ function game() {
             return true;
         }
     };
-    
 
     function checkForWin(mark) {
         const boardToEvaluate = gameboard.getGameboard();
@@ -145,16 +135,6 @@ function game() {
         };
         return "DRAW!"
     };
-    // Keep game running without having to manually call methods in the console
-    function gameLoop() {
-        while (active) {
-            updateCurrentState()
-            checkForWin("x");
-            checkForWin('o');
-            checkForDraw();
-            makeMove();
-        };
-    };
 
     const getActiveMark = () => activeMark;
 
@@ -162,9 +142,6 @@ function game() {
         gameboard.clearGameboard();
         activeMark = 'x';
     }
-
-    // gameLoop();
-
 
     return { players, gameboard, getActivePlayer, switchActiveMark, makeMove, getActiveMark, checkForDraw, checkForWin, getStatus, resetGame };
 };
